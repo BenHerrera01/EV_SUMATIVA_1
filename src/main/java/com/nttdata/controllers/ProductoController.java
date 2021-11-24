@@ -20,8 +20,8 @@ public class ProductoController {
 	ProductoService productoService;
 	
 	@RequestMapping("")
-	public String ventaHome() {
-		return "venta.jsp";
+	public String productoHome() {
+		return "producto.jsp";
 	}
 	
 	@RequestMapping("/add")
@@ -47,7 +47,7 @@ public class ProductoController {
 	@RequestMapping("/editarProducto")
 	public String editarProducto(@Valid @ModelAttribute Producto producto) {
 		productoService.editar(producto);
-		return "redirect:/usuario/lista";
+		return "redirect:/producto/lista";
 	}
 	
 	@RequestMapping("/eliminar/{id}")
@@ -56,7 +56,7 @@ public class ProductoController {
 		if(producto!=null) {
 			productoService.eliminar(producto);
 		}
-		return "redirect:/usuario/lista";
+		return "redirect:/producto/lista";
 	}
 	
 	@RequestMapping("/lista")
