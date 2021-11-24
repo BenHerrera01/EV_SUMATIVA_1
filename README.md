@@ -6,5 +6,8 @@
 - Ejecutar como Spring boot App.
 - Ingresar a las rutas: 
   - http://localhost:8082/usuario
+  - http://localhost:8082/usuario/lista
   - http://localhost:8082/producto
+  - http://localhost:8082/producto/lista
   - http://localhost:8082/venta
+  - http://localhost:8082/venta/lista
