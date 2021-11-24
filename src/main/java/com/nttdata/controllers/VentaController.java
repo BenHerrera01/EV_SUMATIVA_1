@@ -39,7 +39,7 @@ public class VentaController {
 		Venta venta = ventaService.obtenerVenta(id);
 		if(venta!=null) {
 			model.addAttribute("venta", venta);
-			return "editVenta.jsp";
+			return "editVentas.jsp";
 		}
 		return "redirect:/venta/lista";
 	}
