@@ -1,13 +1,18 @@
 package com.nttdata.controllers;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nttdata.models.Producto;
 import com.nttdata.services.ProductoService;
@@ -25,8 +30,13 @@ public class ProductoController {
 	}
 	
 	@RequestMapping("/add")
-	public String agregar(Model model, @Valid @ModelAttribute Producto producto) {
+	public String agregar(Model model, @Valid @ModelAttribute Producto producto, BindingResult binding, RedirectAttributes ra) {
 		if(producto!=null) {
+			if(binding.hasErrors()) {
+				List<String> errores = binding.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
+				ra.addFlashAttribute("errores", errores);
+				return "redirect:/producto";
+			}
 			model.addAttribute("producto", producto);
 			productoService.agregar(producto);
 			return "redirect:/producto/lista";
@@ -45,7 +55,12 @@ public class ProductoController {
 	}
 	
 	@RequestMapping("/editarProducto")
-	public String editarProducto(@Valid @ModelAttribute Producto producto) {
+	public String editarProducto(@Valid @ModelAttribute Producto producto, BindingResult binding, RedirectAttributes ra) {
+		if(binding.hasErrors()) {
+			List<String> errores = binding.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
+			ra.addFlashAttribute("errores", errores);
+			return "redirect:/producto/editar/"+producto.getId();
+		}
 		productoService.editar(producto);
 		return "redirect:/producto/lista";
 	}

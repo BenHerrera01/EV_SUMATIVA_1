@@ -41,7 +41,9 @@
 			</table>
 		</form>
 
-		<span style="color:red;">${mensaje}</span>
+		<c:forEach items="${errores}" var="error">
+			<span style="color:red;">${error}</span><br>
+		</c:forEach>
 
 	</div>
 </body>

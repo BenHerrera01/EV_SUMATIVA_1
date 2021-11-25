@@ -5,6 +5,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Range;
 
 @Entity
 @Table(name = "usuarios")
@@ -13,9 +17,13 @@ public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Size(min = 3, max = 15, message = "El nombre debe tener entre 3 y 15 caracteres")
 	private String nombre;
+	@Size(min = 3, max = 15, message = "El apellido debe tener entre 3 y 15 caracteres")
 	private String apellido;
+	@Email(message = "Formato de correo invalido")
 	private String email;
+	@Range(min = 1, max = 99, message = "La edad debe estar entre 1 y 99 años")
 	private Integer edad;
 	
 	public Usuario() {

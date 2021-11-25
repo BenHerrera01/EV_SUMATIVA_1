@@ -36,13 +36,13 @@
 				<tr>
 					<td></td>
 					<td><input type="reset" value="limpiar" class="btn btn-warning"> <input type="submit" value="enviar" class="btn btn-success"></td>
-					
 				</tr>
 			</table>
 		</form>
-
-		<span style="color:red;">${mensaje}</span>
-
+		<c:forEach items="${errores}" var="error">
+			<span style="color:red;">${error}</span><br>
+		</c:forEach>
+		
 	</div>
 </body>
 </html>

@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Range;
 
 @Entity
 @Table(name = "productos")
@@ -14,9 +17,13 @@ public class Producto {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Size(min = 3, max = 15, message = "El nombre debe tener entre 3 y 15 caracteres")
 	private String nombre;
+	@Range(min = 1, max = 999999, message = "Precio fuera de rango")
 	private Double precio;
+	@Size(min = 3, max = 55, message = "La descripcion debe tener entre 3 y 15 caracteres")
 	private String descripcion;
+	@Range(min = 1, max = 99, message = "Cantidad fuera de rango")
 	private Integer cantidad;
 	
 	public Producto() {

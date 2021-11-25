@@ -3,14 +3,21 @@ package com.nttdata.controllers;
 
 
 
+
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nttdata.models.Usuario;
 import com.nttdata.services.UsuarioService;
@@ -29,8 +36,13 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping("/add")
-	public String agregar(Model model, @Valid @ModelAttribute Usuario usuario) {
+	public String agregar(Model model, @Valid @ModelAttribute Usuario usuario, BindingResult binding, RedirectAttributes ra) {
 		if(usuario!=null) {
+			if(binding.hasErrors()) {
+				List<String> errores = binding.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
+				ra.addFlashAttribute("errores", errores);
+				return "redirect:/usuario";
+			}
 			model.addAttribute("usuario", usuario);
 			usuarioService.agregar(usuario);
 			return "redirect:/usuario/lista";
@@ -49,7 +61,12 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping("/editarUsuario")
-	public String editarUsuario(@Valid @ModelAttribute Usuario usuario) {
+	public String editarUsuario(@Valid @ModelAttribute Usuario usuario, BindingResult binding, RedirectAttributes ra) {
+		if(binding.hasErrors()) {
+			List<String> errores = binding.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
+			ra.addFlashAttribute("errores", errores);
+			return "redirect:/usuario/editar/"+usuario.getId();
+		}
 		usuarioService.editar(usuario);
 		return "redirect:/usuario/lista";
 	}

@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "ventas")
@@ -13,10 +14,14 @@ public class Venta {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
+	@Size(min = 5, max = 15, message = "El nombre de venta debe tener entre 5 y 15 caracteres")
 	private String nombre_venta;
+	@Size(min = 8, max = 15, message = "La fecha debe tener un formato valido")
 	private String fecha;
+	@Size(min = 3, max = 15, message = "El cliente debe tener entre 3 y 15 caracteres")
 	private String cliente;
+	@Size(min = 3, max = 15, message = "El producto debe tener entre 3 y 15 caracteres")
 	private String producto;
 
 	public Venta() {

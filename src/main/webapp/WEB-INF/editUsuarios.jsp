@@ -39,8 +39,11 @@
 					
 				</tr>
 			</table>
-		<span style="color: red;">${mensaje}</span>
+		<c:forEach items="${errores}" var="error">
+			<span style="color:red;">${error}</span><br>
+		</c:forEach>
 		</form>
+		<br>
 		<a href="../lista" class="btn btn-primary">Volver</a>	
 	</div>
 </body>
