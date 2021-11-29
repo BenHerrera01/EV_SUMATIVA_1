@@ -1,9 +1,20 @@
 package com.nttdata.models;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -23,18 +34,57 @@ public class Producto {
 	private Double precio;
 	@Size(min = 3, max = 55, message = "La descripcion debe tener entre 3 y 15 caracteres")
 	private String descripcion;
-	@Range(min = 1, max = 99, message = "Cantidad fuera de rango")
-	private Integer cantidad;
+	@Size(min = 1, max = 20, message = "La marca debe tener entre 1 y 20 caracteres")
+	private String marca;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(
+			name = "productos_carritos", 
+			joinColumns = @JoinColumn(name = "producto_id"),
+			inverseJoinColumns =  @JoinColumn(name = "carrito_id")
+			)
+	private List<Carrito> carritos;
+	
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+	@JoinTable(
+			name = "productos_categorias", 
+			joinColumns = @JoinColumn(name = "producto_id"),
+			inverseJoinColumns =  @JoinColumn(name = "categoria_id")
+			)
+	private List<Categoria> categorias;
+	
+	@Column(updatable = false)
+	private Date createdAt;
+	
+	private Date updatedAt;
 	
 	public Producto() {
 	}
 
-	public Producto(Long id, String nombre, Double precio, String descripcion, Integer cantidad) {
-		this.id = id;
+	public Producto(String nombre, Double precio, String descripcion, String marca) {
 		this.nombre = nombre;
 		this.precio = precio;
 		this.descripcion = descripcion;
-		this.cantidad = cantidad;
+		this.marca = marca;
+	}
+
+
+
+	public List<Carrito> getCarritos() {
+		return carritos;
+	}
+
+	public void setCarritos(List<Carrito> carritos) {
+		this.carritos = carritos;
+	}
+
+	public String getMarca() {
+		return marca;
+	}
+
+	public void setMarca(String marca) {
+		this.marca = marca;
 	}
 
 	public Long getId() {
@@ -69,13 +119,31 @@ public class Producto {
 		this.descripcion = descripcion;
 	}
 
-	public Integer getCantidad() {
-		return cantidad;
+	public List<Categoria> getCategorias() {
+		return categorias;
 	}
 
-	public void setCantidad(Integer cantidad) {
-		this.cantidad = cantidad;
+	public void setCategorias(List<Categoria> categorias) {
+		this.categorias = categorias;
 	}
 	
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	@PrePersist
+	protected void onCreate() {
+		this.createdAt = new Date();
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		this.updatedAt = new Date();
+	}
+
 	
 }

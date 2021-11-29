@@ -3,6 +3,7 @@ package com.nttdata.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.nttdata.models.Usuario;
@@ -14,11 +15,21 @@ public class UsuarioService {
 	@Autowired
 	UsuarioRepository usuarioRepository ;
 	
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
 	public List<Usuario> listar(){
 		return usuarioRepository.findAll();
 	}
 	
 	public void agregar(Usuario usuario) {
+		usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+		String role = usuario.getRole();
+		if(role.equals("ADMIN_ROLE")) {
+			usuario.setRole("ADMIN_ROLE");
+		} else {
+			usuario.setRole("USER_ROLE");
+		}
 		usuarioRepository.save(usuario);
 	}
 	
@@ -34,6 +45,9 @@ public class UsuarioService {
 		return usuarioRepository.findById(id).get();
 	}
 	
+	public Usuario findByEmail(String email) {
+		return usuarioRepository.findByEmail(email);
+	}
 
 
 }

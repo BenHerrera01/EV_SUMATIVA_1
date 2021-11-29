@@ -20,7 +20,7 @@
 							<th>Apellido</th>
 							<th>Email</th>
 							<th>Edad</th>
-							<th></th>
+
 						</tr>
 					</thead>
 					<c:forEach items="${listaUsuarios}" var="usuario">
@@ -30,11 +30,11 @@
 							<td>${usuario.apellido}</td>
 							<td>${usuario.email}</td>
 							<td>${usuario.edad}</td>
-							<td><a class="btn btn-primary" href="../usuario/editar/${usuario.id}">Editar</a> <a class="btn btn-danger" href="../usuario/eliminar/${usuario.id}">Eliminar</a></td>
+
 						</tr>
 					</c:forEach>
 		</table>
-	<a href="../usuario" class="btn btn-primary">Volver</a>	
+	<input onclick="history.go(-1)"  class="btn btn-primary" value="Volver">
 	</div>
 </body>
 </html>

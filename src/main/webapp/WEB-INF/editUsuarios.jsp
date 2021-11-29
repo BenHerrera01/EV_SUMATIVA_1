@@ -34,6 +34,11 @@
 
 				</tr>
 				<tr>
+					<td><label for="password">Clave: </label></td>
+					<td><input type="password" name="password" id="password" value="" required></td>
+
+				</tr>
+				<tr>
 					<td><input type="hidden" name="id" id="id" value="${usuario.id}"></td>
 					<td><input type="submit" value="Editar" class="btn btn-success"></td>
 					

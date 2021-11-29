@@ -1,10 +1,6 @@
 package com.nttdata.controllers;
 
 
-
-
-
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -24,33 +22,37 @@ import com.nttdata.services.UsuarioService;
 
 
 @Controller
-@RequestMapping("/usuario")
 public class UsuarioController {
 	
 	@Autowired
 	UsuarioService usuarioService;
 	
-	@RequestMapping("")
-	public String usuarioHome() {
-		return "usuario.jsp";
+	@GetMapping("/login")
+	public String login() {
+		return "login.jsp";
 	}
 	
-	@RequestMapping("/add")
-	public String agregar(Model model, @Valid @ModelAttribute Usuario usuario, BindingResult binding, RedirectAttributes ra) {
+	@GetMapping("/registro")
+	public String registroForm(Model model) {
+		return "registro.jsp";
+	}
+	
+	@PostMapping("/registro")
+	public String registrar(Model model, @Valid @ModelAttribute Usuario usuario, BindingResult binding, RedirectAttributes ra) {
 		if(usuario!=null) {
 			if(binding.hasErrors()) {
-				List<String> errores = binding.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
-				ra.addFlashAttribute("errores", errores);
-				return "redirect:/usuario";
+				ra.addFlashAttribute("error", "Error en alguno de los campos");
+				return "redirect:/registro";
 			}
-			model.addAttribute("usuario", usuario);
+			System.out.println(usuario.getPassword());
 			usuarioService.agregar(usuario);
-			return "redirect:/usuario/lista";
+			return "redirect:/login";
 		}
-		return "redirect:/usuario";
+		return "redirect:/registro";
 	}
+
 	
-	@RequestMapping("/editar/{id}")
+	@RequestMapping("usuario/editar/{id}")
 	public String editar(@PathVariable Long id, Model model) {
 		Usuario usuario = usuarioService.obtenerUsuario(id);
 		if(usuario!=null) {
@@ -60,7 +62,7 @@ public class UsuarioController {
 		return "redirect:/usuario/lista";
 	}
 	
-	@RequestMapping("/editarUsuario")
+	@RequestMapping("usuario/editarUsuario")
 	public String editarUsuario(@Valid @ModelAttribute Usuario usuario, BindingResult binding, RedirectAttributes ra) {
 		if(binding.hasErrors()) {
 			List<String> errores = binding.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
@@ -71,7 +73,7 @@ public class UsuarioController {
 		return "redirect:/usuario/lista";
 	}
 	
-	@RequestMapping("/eliminar/{id}")
+	@RequestMapping("usuario/eliminar/{id}")
 	public String eliminar(@PathVariable Long id) {
 		Usuario usuario = usuarioService.obtenerUsuario(id);
 		if(usuario!=null) {
@@ -80,7 +82,7 @@ public class UsuarioController {
 		return "redirect:/usuario/lista";
 	}
 	
-	@RequestMapping("/lista")
+	@RequestMapping("usuario/lista")
 	public String listar(Model model) {
 		model.addAttribute("listaUsuarios", usuarioService.listar());
 		return "listaUsuarios.jsp";

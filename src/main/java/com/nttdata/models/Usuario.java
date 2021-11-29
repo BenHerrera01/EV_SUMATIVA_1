@@ -1,9 +1,12 @@
 package com.nttdata.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
@@ -26,15 +29,25 @@ public class Usuario {
 	@Range(min = 1, max = 99, message = "La edad debe estar entre 1 y 99 años")
 	private Integer edad;
 	
+	private String password;
+	
+	private String role;
+	
+	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Carrito carrito;
+	
+	
+	
 	public Usuario() {
 	}
 
-	public Usuario(Long id, String nombre, String apellido, String email, Integer edad) {
-		this.id = id;
+	public Usuario(String nombre, String apellido, String email, Integer edad, String password, String role) {
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.email = email;
 		this.edad = edad;
+		this.password = password;
+		this.role = role;
 	}
 
 	public Long getId() {
@@ -75,6 +88,30 @@ public class Usuario {
 
 	public void setEdad(Integer edad) {
 		this.edad = edad;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Carrito getCarrito() {
+		return carrito;
+	}
+
+	public void setCarrito(Carrito carrito) {
+		this.carrito = carrito;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 	
 	

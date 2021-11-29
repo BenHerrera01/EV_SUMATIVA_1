@@ -6,12 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.nttdata.models.Usuario;
+import com.nttdata.models.Carrito;
 
 @Repository
-public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
-	List<Usuario> findAll();
+public interface CarritoRepository extends CrudRepository<Carrito, Long>{
+	List<Carrito> findAll();
 	
-	@Query("SELECT u FROM Usuario u where u.email=?1")
-	Usuario findByEmail(String email);
+	@Query("SELECT c FROM Carrito c JOIN c.usuario u WHERE u.email=?1")
+	Carrito findByUserEmail(String email);
 }

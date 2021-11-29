@@ -33,4 +33,16 @@ public class ProductoService {
 	public Producto obtenerProducto(Long id) {
 		return productoRepository.findById(id).get();
 	}
+	
+	public List<Producto> obtenerPorCategoria(String categoria){
+		return productoRepository.findByCategory(categoria);
+	}
+	
+	public List<Producto> obtenerPorPalabraClave(String palabra){
+		return productoRepository.findByKeyword(palabra);
+	}
+	
+	public List<Producto> obtenerPorCategoriaDinamica(String nombreCategoria){
+		return productoRepository.findByDynamicCategory(nombreCategoria);
+	}
 }

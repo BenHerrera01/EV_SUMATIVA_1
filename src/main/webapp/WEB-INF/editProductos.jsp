@@ -19,24 +19,34 @@
 
 				</tr>
 				<tr>
+					<td><label for="marca">Marca: </label></td>
+					<td><input type="text" name="marca" id="marca" value="${producto.marca}" required></td>
+
+				</tr>
+				<tr>
 					<td><label for="precio">Precio: </label></td>
 					<td><input type="number" name="precio" id="precio" value="${producto.precio}" required></td>
 
 				</tr>
 				<tr>
 					<td><label for="descripcion">Descripcion: </label></td>
-					<td><input type="text" name="descripcion" id="descripcion" value="${producto.descripcion}" required></td>
-
+					<td><input type="text" name="descripcion" id="descripcion" value="${producto.descripcion}"
+						required></td>
 				</tr>
 				<tr>
-					<td><label for="cantidad">Cantidad: </label></td>
-					<td><input type="number" name="cantidad" id="cantidad" value="${producto.cantidad}" required></td>
-
+					<td><label for="categoria">Categoria: </label></td>
+					<td><select class="form-select" name="categorias" multiple>
+							<c:forEach items="${listaCategorias}" var="categoria">
+								<option value="${categoria.id}">${categoria.nombre}</option>
+							</c:forEach>
+					</select>
 				</tr>
 				<tr>
-					<td><input type="hidden" name="id" id="id" value="${producto.id}"></td>
-					<td><input type="submit" value="Editar" class="btn btn-success"></td>
-					
+					<td><input type="hidden" name="id" id="id"
+						value="${producto.id}"></td>
+					<td><input type="submit" value="Editar"
+						class="btn btn-success"></td>
+
 				</tr>
 			</table>
 			<c:forEach items="${errores}" var="error">

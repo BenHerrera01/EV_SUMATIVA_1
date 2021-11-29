@@ -12,9 +12,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nttdata.models.Producto;
+import com.nttdata.services.CategoriaService;
 import com.nttdata.services.ProductoService;
 
 @Controller
@@ -24,8 +26,13 @@ public class ProductoController {
 	@Autowired
 	ProductoService productoService;
 	
+	@Autowired
+	CategoriaService categoriaService;
+	
 	@RequestMapping("")
-	public String productoHome() {
+	public String productoHome(Model model) {
+		model.addAttribute("listaProductos", productoService.listar());
+		model.addAttribute("listaCategorias", categoriaService.listar());
 		return "producto.jsp";
 	}
 	
@@ -49,6 +56,7 @@ public class ProductoController {
 		Producto producto = productoService.obtenerProducto(id);
 		if(producto!=null) {
 			model.addAttribute("producto", producto);
+			model.addAttribute("listaCategorias", categoriaService.listar());
 			return "editProductos.jsp";
 		}
 		return "redirect:/producto/lista";
@@ -76,7 +84,12 @@ public class ProductoController {
 	
 	@RequestMapping("/lista")
 	public String listar(Model model) {
+		for (Producto prod : productoService.obtenerPorPalabraClave("headset")) {
+			System.out.println(prod.getNombre());
+		}
+		
 		model.addAttribute("listaProductos", productoService.listar());
 		return "listaProductos.jsp";
 	}
+
 }

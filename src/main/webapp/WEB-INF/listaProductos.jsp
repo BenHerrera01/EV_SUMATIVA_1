@@ -9,6 +9,7 @@
 <title>Producto</title>
 </head>
 <body>
+<jsp:include page="template/headerAdmin.jsp"></jsp:include>
 	<div class="container">
 		<h1>Lista de productos</h1>
 		
@@ -19,7 +20,7 @@
 							<th>Nombre</th>
 							<th>Precio</th>
 							<th>Descripcion</th>
-							<th>Cantidad</th>
+							<th>Categoria(s)</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -29,7 +30,11 @@
 							<td>${producto.nombre}</td>
 							<td>${producto.precio}</td>
 							<td>${producto.descripcion}</td>
-							<td>${producto.cantidad}</td>
+							<td>
+							<c:forEach items="${producto.categorias}" var="categoria">
+								<span>${categoria.nombre} </span>
+							</c:forEach>
+							</td>
 							<td><a class="btn btn-primary" href="../producto/editar/${producto.id}">Editar</a> <a class="btn btn-danger" href="../producto/eliminar/${producto.id}">Eliminar</a></td>
 						</tr>
 					</c:forEach>
