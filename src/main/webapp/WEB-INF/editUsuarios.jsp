@@ -9,6 +9,7 @@
 <title>Usuario</title>
 </head>
 <body>
+<jsp:include page="template/headerAdmin.jsp"></jsp:include>
 	<div class="container">
 		<h1>Edicion de usuarios</h1>
 		<form action="../editarUsuario" method="post">
@@ -31,11 +32,6 @@
 				<tr>
 					<td><label for="edad">Edad: </label></td>
 					<td><input type="number" name="edad" id="edad" value="${usuario.edad}" required></td>
-
-				</tr>
-				<tr>
-					<td><label for="password">Clave: </label></td>
-					<td><input type="password" name="password" id="password" value="" required></td>
 
 				</tr>
 				<tr>

@@ -48,6 +48,14 @@ public class UsuarioService {
 	public Usuario findByEmail(String email) {
 		return usuarioRepository.findByEmail(email);
 	}
+	
+	public boolean usuarioExiste(String email) {
+		boolean existe = true;
+		if(usuarioRepository.findByEmail(email)==null) {
+			existe = false;
+		}
+		return existe;
+	}
 
 
 }

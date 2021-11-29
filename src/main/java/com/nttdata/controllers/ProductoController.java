@@ -83,11 +83,7 @@ public class ProductoController {
 	}
 	
 	@RequestMapping("/lista")
-	public String listar(Model model) {
-		for (Producto prod : productoService.obtenerPorPalabraClave("headset")) {
-			System.out.println(prod.getNombre());
-		}
-		
+	public String listar(Model model) {	
 		model.addAttribute("listaProductos", productoService.listar());
 		return "listaProductos.jsp";
 	}

@@ -1,6 +1,7 @@
 package com.nttdata.controllers;
 
 
+import java.security.Principal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,8 +44,13 @@ public class UsuarioController {
 			if(binding.hasErrors()) {
 				ra.addFlashAttribute("error", "Error en alguno de los campos");
 				return "redirect:/registro";
+			} else if(!usuario.getPassword().equals(usuario.getPasswordConfirmation()) || usuario.getPassword().length()<3 || usuario.getPassword().length()>15) {
+				ra.addFlashAttribute("error", "Passwords no coinciden o estan fuera de limite");
+				return "redirect:/registro";
+			} else if(usuarioService.usuarioExiste(usuario.getEmail())) {
+				ra.addFlashAttribute("error", "Correo ya registrado");
+				return "redirect:/registro";
 			}
-			System.out.println(usuario.getPassword());
 			usuarioService.agregar(usuario);
 			return "redirect:/login";
 		}
@@ -68,6 +74,9 @@ public class UsuarioController {
 			List<String> errores = binding.getAllErrors().stream().map(e -> e.getDefaultMessage()).collect(Collectors.toList());
 			ra.addFlashAttribute("errores", errores);
 			return "redirect:/usuario/editar/"+usuario.getId();
+		} else if(!usuario.getPassword().equals(usuario.getPasswordConfirmation()) || usuario.getPassword().length()<3 || usuario.getPassword().length()>15) {
+			ra.addFlashAttribute("errores", "Passwords no coinciden o estan fuera de limite");
+			return "redirect:/usuario/editar/"+usuario.getId();
 		}
 		usuarioService.editar(usuario);
 		return "redirect:/usuario/lista";
@@ -83,7 +92,8 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping("usuario/lista")
-	public String listar(Model model) {
+	public String listar(Model model, Principal principal) {
+		model.addAttribute("userEmail", principal.getName());
 		model.addAttribute("listaUsuarios", usuarioService.listar());
 		return "listaUsuarios.jsp";
 	}

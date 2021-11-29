@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
@@ -31,12 +32,13 @@ public class Usuario {
 	
 	private String password;
 	
+	@Transient
+	private String passwordConfirmation;
+	
 	private String role;
 	
 	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Carrito carrito;
-	
-	
 	
 	public Usuario() {
 	}
@@ -47,6 +49,23 @@ public class Usuario {
 		this.email = email;
 		this.edad = edad;
 		this.password = password;
+		this.role = role;
+	}
+	
+	
+	public Usuario(Long id,
+			String nombre,
+			String apellido,
+			String email,
+			Integer edad, String password,
+			String role, String passwordConfirmation) {
+		this.id = id;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.email = email;
+		this.edad = edad;
+		this.password = password;
+		this.passwordConfirmation = passwordConfirmation;
 		this.role = role;
 	}
 
@@ -112,6 +131,14 @@ public class Usuario {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public String getPasswordConfirmation() {
+		return passwordConfirmation;
+	}
+
+	public void setPasswordConfirmation(String passwordConfirmation) {
+		this.passwordConfirmation = passwordConfirmation;
 	}
 	
 	

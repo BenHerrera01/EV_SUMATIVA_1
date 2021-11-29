@@ -27,7 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	 http.csrf().disable()
 				.authorizeRequests()
 				.antMatchers("/home","/carrito/**").hasAuthority("USER_ROLE")
-				.antMatchers("/producto/**").hasAuthority("ADMIN_ROLE")
+				.antMatchers("/producto/**","/usuario/**").hasAuthority("ADMIN_ROLE")
 				.antMatchers("/login","/registro").permitAll()
 				.anyRequest().authenticated()
 				.and()

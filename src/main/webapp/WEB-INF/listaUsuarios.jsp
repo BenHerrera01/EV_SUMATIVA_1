@@ -9,6 +9,7 @@
 <title>Usuario</title>
 </head>
 <body>
+<jsp:include page="template/headerAdmin.jsp"></jsp:include>
 	<div class="container">
 		<h1>Lista de usuarios</h1>
 		
@@ -30,6 +31,9 @@
 							<td>${usuario.apellido}</td>
 							<td>${usuario.email}</td>
 							<td>${usuario.edad}</td>
+							<c:if test="${!usuario.email.equals(userEmail)}">
+								<td><a class="btn btn-danger" href="../usuario/eliminar/${usuario.id}">Eliminar</a></td>
+							</c:if>
 
 						</tr>
 					</c:forEach>

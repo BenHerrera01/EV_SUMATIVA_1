@@ -37,7 +37,11 @@
 									</div>
 									<div class="form-outline form-white mb-4">
 										<input type="password"  id="password" name="password" class="form-control form-control-lg"/> 
-										<label	class="form-label" for="password">Clave</label>
+										<label	class="form-label" for="password">Password</label>
+									</div>
+									<div class="form-outline form-white mb-4">
+										<input type="password"  id="passwordConfirmation" name="passwordConfirmation" class="form-control form-control-lg"/> 
+										<label	class="form-label" for="passwordConfirmation">Confirmar Password</label>
 									</div>
 									<div class="form-outline form-white mb-4">
 										<select class="form-control form-control-sm" id="role" name="role">
