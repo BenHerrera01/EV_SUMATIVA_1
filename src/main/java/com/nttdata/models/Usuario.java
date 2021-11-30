@@ -1,11 +1,16 @@
 package com.nttdata.models;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -35,7 +40,13 @@ public class Usuario {
 	@Transient
 	private String passwordConfirmation;
 	
-	private String role;
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(
+			name = "roles_usuarios", 
+			joinColumns = @JoinColumn(name = "usuario_id"),
+			inverseJoinColumns =  @JoinColumn(name = "role_id")
+			)
+	private List<Role> roles;
 	
 	@OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Carrito carrito;
@@ -43,13 +54,12 @@ public class Usuario {
 	public Usuario() {
 	}
 
-	public Usuario(String nombre, String apellido, String email, Integer edad, String password, String role) {
+	public Usuario(String nombre, String apellido, String email, Integer edad, String password) {
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.email = email;
 		this.edad = edad;
 		this.password = password;
-		this.role = role;
 	}
 	
 	
@@ -57,8 +67,7 @@ public class Usuario {
 			String nombre,
 			String apellido,
 			String email,
-			Integer edad, String password,
-			String role, String passwordConfirmation) {
+			Integer edad, String password, String passwordConfirmation) {
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -66,7 +75,6 @@ public class Usuario {
 		this.edad = edad;
 		this.password = password;
 		this.passwordConfirmation = passwordConfirmation;
-		this.role = role;
 	}
 
 	public Long getId() {
@@ -125,12 +133,12 @@ public class Usuario {
 		return password;
 	}
 
-	public String getRole() {
-		return role;
+	public List<Role> getRoles() {
+		return roles;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 
 	public String getPasswordConfirmation() {

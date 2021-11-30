@@ -43,35 +43,38 @@ public class HomeController {
 	}
 	
 	@GetMapping("/busquedaCategoria")
-	public String listarPorCategoria(Model model, @RequestParam("categoria") String categoria) {
+	public String listarPorCategoria(Model model, @RequestParam("categoria") String categoria, Principal principal) {
 		if(categoria.equals("")) {
 			return "redirect:/home";
 		}
 		List<Producto> listaProductos = productoService.obtenerPorCategoria(categoria);
 		model.addAttribute("listaCategorias", categoriaService.listar());
 		model.addAttribute("listaProductos", listaProductos);
+		model.addAttribute("nombre", principal.getName());
 		return "home.jsp";
 	}
 	
 	@GetMapping("/busquedaKeyword")
-	public String listarPorKeyword(Model model, @RequestParam("keyword") String keyword) {
+	public String listarPorKeyword(Model model, @RequestParam("keyword") String keyword, Principal principal) {
 		if(keyword.equals("")) {
 			return "redirect:/home";
 		}
 		List<Producto> listaProductos = productoService.obtenerPorPalabraClave(keyword);
 		model.addAttribute("listaCategorias", categoriaService.listar());
 		model.addAttribute("listaProductos", listaProductos);
+		model.addAttribute("nombre", principal.getName());
 		return "home.jsp";
 	}
 	
 	@GetMapping("/busquedaCategoriaDinamica")
-	public String listarPorCategoriaDinamica(Model model, @RequestParam("nombreCategoria") String nombreCategoria) {
+	public String listarPorCategoriaDinamica(Model model, @RequestParam("nombreCategoria") String nombreCategoria, Principal principal) {
 		if(nombreCategoria.equals("")) {
 			return "redirect:/home";
 		}
 		List<Producto> listaProductos = productoService.obtenerPorCategoriaDinamica(nombreCategoria);
 		model.addAttribute("listaCategorias", categoriaService.listar());
 		model.addAttribute("listaProductos", listaProductos);
+		model.addAttribute("nombre", principal.getName());
 		return "home.jsp";
 	}
 	

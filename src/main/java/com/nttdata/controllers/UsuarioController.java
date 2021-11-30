@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.nttdata.models.Role;
 import com.nttdata.models.Usuario;
+import com.nttdata.services.RoleService;
 import com.nttdata.services.UsuarioService;
 
 
@@ -28,6 +30,9 @@ public class UsuarioController {
 	@Autowired
 	UsuarioService usuarioService;
 	
+	@Autowired
+	RoleService roleService;
+	
 	@GetMapping("/login")
 	public String login() {
 		return "login.jsp";
@@ -35,6 +40,7 @@ public class UsuarioController {
 	
 	@GetMapping("/registro")
 	public String registroForm(Model model) {
+		model.addAttribute("listaRoles", roleService.obtenerRoles());
 		return "registro.jsp";
 	}
 	
@@ -57,6 +63,17 @@ public class UsuarioController {
 		return "redirect:/registro";
 	}
 
+	@RequestMapping("role/agregar")
+	public String agregarRole(Model model) {
+		model.addAttribute("listaRoles", roleService.obtenerRoles());
+		return "roles.jsp";
+	}
+	
+	@RequestMapping("role/insertar")
+	public String insertarRole(Model model, @Valid @ModelAttribute Role role) {
+		roleService.insertar(role);
+		return "redirect:/role/agregar";
+	}
 	
 	@RequestMapping("usuario/editar/{id}")
 	public String editar(@PathVariable Long id, Model model) {
@@ -90,6 +107,8 @@ public class UsuarioController {
 		}
 		return "redirect:/usuario/lista";
 	}
+	
+	
 	
 	@RequestMapping("usuario/lista")
 	public String listar(Model model, Principal principal) {

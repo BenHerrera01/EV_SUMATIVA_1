@@ -69,6 +69,7 @@ public class CarritoController {
 			model.addAttribute("productos", productosCarro);
 			model.addAttribute("total", carritoService.obtenerTotal(productosCarro));
 			model.addAttribute("cantidad", productosCarro.size());
+			model.addAttribute("nombre", principal.getName());
 			return "carrito.jsp";
 		}
 		return "redirect:/home";

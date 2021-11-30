@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.nttdata.models.Role;
 import com.nttdata.models.Usuario;
 import com.nttdata.repositories.UsuarioRepository;
 
@@ -20,13 +21,16 @@ public class AuthService implements UserDetailsService{
 
 	@Autowired
 	UsuarioRepository usuarioRepository;
-	
+		
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
 		Usuario usuario = usuarioRepository.findByEmail(email);
 		if(usuario == null) throw new UsernameNotFoundException(email);
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		authorities.add(new SimpleGrantedAuthority(usuario.getRole()));
+		for (Role rol : usuario.getRoles()) {
+			authorities.add(new SimpleGrantedAuthority(rol.getNombre()));
+		}
 		return new User(usuario.getEmail(), usuario.getPassword(),authorities);
 	}
 

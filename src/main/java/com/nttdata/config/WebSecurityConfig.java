@@ -16,7 +16,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
+	private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
+	@Autowired
+	public WebSecurityConfig(CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
+		this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
+	}
+	
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws	Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
@@ -26,30 +32,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	 public void configure(HttpSecurity http) throws Exception {
 	 http.csrf().disable()
 				.authorizeRequests()
-				.antMatchers("/home","/carrito/**").hasAuthority("USER_ROLE")
-				.antMatchers("/producto/**","/usuario/**").hasAuthority("ADMIN_ROLE")
+				.antMatchers("/","/home","/carrito/**").hasAuthority("ROLE_USER")
+				.antMatchers("/producto/**","/usuario/**").hasAuthority("ROLE_ADMIN")
 				.antMatchers("/login","/registro").permitAll()
 				.anyRequest().authenticated()
 				.and()
 				.formLogin().loginPage("/login")
+				.usernameParameter("email").passwordParameter("password")
 				.successHandler(customAuthenticationSuccessHandler)
-				.failureUrl("/login?error=true")
-				.usernameParameter("email").passwordParameter("password");
+				.failureUrl("/login?error=true");
+				
 	 http.headers().cacheControl();
 	 }
 
-	
-	private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
-	
-	@Autowired
-	public WebSecurityConfig(CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
-		this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
-	}
-	
-	
-	
+
+
 	@Bean
-	 public BCryptPasswordEncoder passwordEncoder() {
+	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
-	 }
+	}
 }

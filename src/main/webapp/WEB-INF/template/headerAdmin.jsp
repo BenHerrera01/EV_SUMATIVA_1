@@ -10,6 +10,7 @@
 				<li class="nav-item"><a class="nav-link" href="../producto/lista"><span> Productos</span></a></li>
 				<li class="nav-item"><a class="nav-link" href="../producto"><span> Agregar Productos</span></a></li>
 				<li class="nav-item"><a class="nav-link" href="../usuario/lista"><span> Ver usuarios</span></a></li>
+				<li class="nav-item"><a class="nav-link" href="../role/agregar"><span> Roles</span></a></li>
 			</ul>
 			<ul class="navbar-nav">
 				<li class="nav-item"><a class="nav-link" href="../logout"><span>Cerrar sesion</span></a></li>

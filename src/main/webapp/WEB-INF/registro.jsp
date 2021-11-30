@@ -43,13 +43,6 @@
 										<input type="password"  id="passwordConfirmation" name="passwordConfirmation" class="form-control form-control-lg"/> 
 										<label	class="form-label" for="passwordConfirmation">Confirmar Password</label>
 									</div>
-									<div class="form-outline form-white mb-4">
-										<select class="form-control form-control-sm" id="role" name="role">
-											  <option value="USER_ROLE">User</option>
-											  <option value="ADMIN_ROLE">Admin</option>
-										</select>
-										<label	class="form-label" for="role">Rol</label>
-									</div>
 									<button class="btn btn-dark btn-outline-light" type="submit">Registrarse</button>
 								</form>
 								<span style="color:red">${error}</span><br>
